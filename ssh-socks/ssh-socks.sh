@@ -40,6 +40,7 @@ if [[ ${mode} -eq 1 ]]; then
 	fi
 	echo 111111 | sudo -S ./proxy_conf_helper --mode global --port ${PORT} --socks-listen-address 127.0.0.1 -x 127.0.0.1 -x localhost -x 192.168.0.0/16 -x 10.0.0.0/8 -x FE80::/64 -x ::1 -x FD00::/8
 else
+	#终止终端打开的所有ssh会话
 	echo 111111 | sudo -S killall ssh
 	echo 111111 | sudo -S ./proxy_conf_helper --mode off --pac-url http://localhost:1089/proxy.pac --port ${PORT} --socks-listen-address 127.0.0.1 -x 127.0.0.1 -x localhost -x 192.168.0.0/16 -x 10.0.0.0/8 -x FE80::/64 -x ::1 -x FD00::/8
 fi
