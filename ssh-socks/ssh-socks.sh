@@ -1,22 +1,26 @@
 #!/bin/sh
-read -p "请输入您要的操作:【0关闭/1开启】" mode
 PORT=1086
 HOST=""
 username=""
 password=""
+if [[ ${HOST} == "" ]] || [[ ${username} == "" ]] || [[ ${password} == "" ]]; then
+	echo "请先把服务器地址、账号、密码填一下!"
+	exit
+fi
+read -p "请输入您要的操作:【0关闭/1开启】" mode
 
 function auto_login_ssh(){
-    expect -c "
-    set timeout 3600;
-    spawn ssh -qTfnN -D $1 $2;
-    expect {
-        *assword:* {
-            send $3\r;
-        }
-    }
-    interact
-    "
-    return $?
+	expect -c "
+	set timeout 3600;
+	spawn ssh -qTfnN -D $1 $2;
+	expect {
+		*assword:* {
+			send $3\r;
+		}
+	}
+	interact
+	"
+	return $?
 }
 
 #proxy_conf_helper用法：3个模式：自动、全局、关闭
@@ -31,10 +35,10 @@ if [[ ${mode} -eq 1 ]]; then
 	#不重复运行
 	if (pgrep -f 'ssh -qTfnN'>/dev/null)
 	then
-	    echo "Already running!"
-	    exit
+		echo "Already running!"
+		exit
 	else
-	    echo "Starting"
+		echo "Starting"
 		# ssh -qTfnN -D ${PORT} ${username}@${HOST}
 		auto_login_ssh ${PORT} ${username}@${HOST} ${password}
 	fi
