@@ -7,7 +7,7 @@ if [[ ${HOST} == "" ]] || [[ ${username} == "" ]] || [[ ${password} == "" ]]; th
 	echo "请先把服务器地址、账号、密码填一下!"
 	exit
 fi
-read -p "请输入您要的操作:【0关闭/1开启】" mode
+read -p "请输入您要的操作【0关闭/1开启】:" mode
 
 function auto_login_ssh(){
 	expect -c "
